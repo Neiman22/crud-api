@@ -12,6 +12,12 @@ interface User {
 
 const users: User[] = [];
 
+function isValidUUID(uuid: string): boolean {
+  const uuidRegex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  return uuidRegex.test(uuid);
+}
+
 app.get('/api/users', (req: Request, res: Response) => {
   res.status(200).json(users);
 });
