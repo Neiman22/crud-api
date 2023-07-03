@@ -1,4 +1,5 @@
 import express, { Request, Response } from 'express';
+import { v4 as uuidv4 } from 'uuid';
 
 const app = express();
 app.use(express.json());
@@ -37,5 +38,23 @@ app.get('/api/users/:userId', (req: Request, res: Response) => {
 
   res.status(200).json(user);
 });
+
+app.post('/api/users', (req: Request, res: Response) => {
+  const { username, age, hobbies } = req.body;
+
+  if(!username || !age || !hobbies) {
+    res.status(400).json({ message: 'Missing required fields' })
+  }
+
+  const newUser = {
+    id: uuidv4(),
+    username,
+    age,
+    hobbies
+  }
+
+  users.push(newUser);
+  res.status(200).json(newUser);
+})
 
 
