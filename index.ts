@@ -55,6 +55,32 @@ app.post('/api/users', (req: Request, res: Response) => {
 
   users.push(newUser);
   res.status(200).json(newUser);
+});
+
+app.put('api/users/:userId', (req: Request, res: Response) => {
+  const userId = req.params.userId;
+  if (!isValidUUID(userId)) {
+    return res.status(400).json({ message: 'Invalid user ID' });
+  }
+  const userIndex = users.findIndex((u) => u.id === userId);
+  if (userIndex === -1) {
+    return res.status(404).json({ message: 'User not found' });
+  }
+
+  const { username, age, hobbies } = req.body;
+
+  if (!username || !age || !hobbies) {
+    return res.status(400).json({ message: 'Missing required fields' });
+  }
+
+  users[userIndex] = {
+    id: userId,
+    username,
+    age,
+    hobbies,
+  };
+
+  res.status(200).json(users[userIndex]);
 })
 
 
